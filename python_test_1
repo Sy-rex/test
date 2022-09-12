@@ -1,0 +1,443 @@
+from tkinter import *
+import time
+import random
+import os
+import sys
+import win32api
+
+def start_window():
+    global canvas
+    canvas.pack_forget()
+    canvas = Canvas(width = 2000, height = 2000, bg = '#00ffff')
+    canvas.pack()
+    lett = canvas.create_text(980,200,text = 'Добро пожаловать в клавиатурный тренажёр',font = ("Arial Bold", 40))
+    button_1 = Button(canvas, text = 'Уровень 1\n\nНачальный', height = 12, width = 30, font = '60', command = level_1, bd = 15)
+    button_1['bg'] = '#ffff00'
+    button_1.place(x = 120,y = 450)
+    button_2 = Button(canvas, text = 'Уровень 2\n\nОсновной', height = 12, width = 30, font = '60', command = level_2, bd = 15)
+    button_2['bg'] = '#00ff33'
+    button_2.place(x = 560,y = 450)
+    button_3 = Button(canvas, text = 'Уровень 3\n\nУсложнённый', height = 12, width = 30, font = '60', command = level_3, bd = 15)
+    button_3['bg'] = '#ff9900'
+    button_3.place(x = 1000,y = 450)
+    button_4 = Button(canvas, text = 'Уровень 4\n\nПродвинутый', height = 12, width = 30, font = '60', command = level_4, bd = 15)
+    button_4['bg'] = '#ff3300'
+    button_4.place(x = 1440,y = 450)
+
+def l_1(p):
+    global c
+    c = False
+    
+def l_2(p):
+    global c2
+    c2 = False
+    
+def l_3_1(p):
+    global c3_1
+    c3_1 = False
+
+def l_3_2(p):
+    global c3_2
+    c3_2 = False
+    
+def l_3_3(p):
+    global c3_3
+    c3_3 = False
+
+def can_1(e):
+    global c
+    global canvas
+    win32api.LoadKeyboardLayout('00000409',1)
+    canvas.pack_forget()
+    canvas.unbind_all('<Key>')
+    canvas = Canvas(width = 5000, height = 5000, bg = '#ffff00')
+    canvas.pack()
+    keyboard_translate = {'Й':'<q>','Ц':'<w>','У':'<e>','К':'<r>','Е':'<t>',
+                          'Н':'<y>','Г':'<u>','Ш':'<i>','Щ':'<o>','З':'<p>','Х':'<[>','Ъ':'<]>','Ф':'<a>','Ы':'<s>',
+                          'В':'<d>','А':'<f>','П':'<g>','Р':'<h>','О':'<j>','Л':'<k>','Д':'<l>','Ж':'<;>','Я':'<z>',
+                          'Ч':'<x>','С':'<c>','М':'<v>','И':'<b>','Т':'<n>','Ь':'<m>','Б':'<,>','Ю':'<.>','Ё':'<`>'}
+    alphabet = ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ','Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Я','Ч','С','М','И','Т','Ь','Б','Ю','Ё']
+    count_letter = 20
+    ok = True
+    fal_l = True
+    for i in range(count_letter):
+        storona = random.randint(1,2)
+        letter = alphabet[random.randint(0,len(alphabet)-1)]
+        if storona == 1:
+            lett = canvas.create_text(0,500,text=letter,tags= 'text',font = ("Arial Bold", 120))
+            fall = 0
+        else:
+            lett = canvas.create_text(1900,500,text=letter,tags= 'text',font = ("Arial Bold", 120))
+            fall = 1900
+        c = True
+        while c:
+            if storona == 1:
+                canvas.move('text',2,0)
+                fall+=2
+            else:
+                canvas.move('text',-2,0)
+                fall-=2
+            canvas.update()
+            time.sleep(0.0001)
+            canvas.bind_all(keyboard_translate[letter],l_1)
+            if (fall>1900) or (fall<0):
+                canvas.unbind_all(keyboard_translate[letter])
+                c = False
+                ok = False
+                fal_l=False
+                break
+        canvas.unbind_all(keyboard_translate[letter])
+        canvas.delete(lett)
+        if not(fal_l):
+            break
+    if ok:
+        canvas.create_text(900,350,text = '           Молодец\n\nУ тебя всё получилось',font = ("Arial Bold", 60))
+    else:
+        canvas.create_text(900,350,text = '                         Эхх...\n\n      Попробуй ещё раз пройти уровень',font = ("Arial Bold", 60))
+    button_start = Button(canvas, text = 'Выход', height = 10, width = 25, font = '60', command = start_window, bd = 15)
+    button_start['bg'] = '#00ff33'
+    button_start.place(x = 700,y = 620)
+    #os.execv(sys.executable, ['python'] + sys.argv)
+
+def can_2(e):
+    win32api.LoadKeyboardLayout('00000409',1)
+    global c2
+    global canvas
+    canvas.pack_forget()
+    canvas.unbind_all('<Key>')
+    canvas = Canvas(width = 5000, height = 5000, bg = '#00ff33')
+    canvas.pack()
+    keyboard_translate = {'Й':'<q>','Ц':'<w>','У':'<e>','К':'<r>','Е':'<t>',
+                          'Н':'<y>','Г':'<u>','Ш':'<i>','Щ':'<o>','З':'<p>','Х':'<[>','Ъ':'<]>','Ф':'<a>','Ы':'<s>',
+                          'В':'<d>','А':'<f>','П':'<g>','Р':'<h>','О':'<j>','Л':'<k>','Д':'<l>','Ж':'<;>','Я':'<z>',
+                          'Ч':'<x>','С':'<c>','М':'<v>','И':'<b>','Т':'<n>','Ь':'<m>','Б':'<,>','Ю':'<.>','Ё':'<`>'}
+    alphabet = ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ','Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Я','Ч','С','М','И','Т','Ь','Б','Ю','Ё']
+    count_letter = 15
+    ok = True
+    fal_l = True
+    for i in range(count_letter):
+        storona = random.randint(1,2)
+        letter = alphabet[random.randint(0,len(alphabet)-1)]
+        if storona == 1:
+            lett = canvas.create_text(0,500,text=letter,tags= 'text',font = ("Arial Bold", 120))
+            fall = 0
+        else:
+            lett = canvas.create_text(1900,500,text=letter,tags= 'text',font = ("Arial Bold", 120))
+            fall = 1900
+        c2 = True
+        while c2:
+            if storona == 1:
+                canvas.move('text',5,0)
+                fall+=5
+            else:
+                canvas.move('text',-5,0)
+                fall-=5
+            canvas.update()
+            time.sleep(0.000000000000000000000000000000001)
+            canvas.bind_all(keyboard_translate[letter],l_2)
+            if (fall>1900) or (fall<0):
+                canvas.unbind_all(keyboard_translate[letter])
+                c2 = False
+                ok = False
+                fal_l=False
+                break
+        canvas.unbind_all(keyboard_translate[letter])
+        canvas.delete(lett)
+        if not(fal_l):
+            break
+    if ok:
+        canvas.create_text(900,350,text = '           Молодец\n\nУ тебя всё получилось',font = ("Arial Bold", 60))
+    else:
+        canvas.create_text(900,350,text = '                         Эхх...\n\n      Попробуй ещё раз пройти уровень',font = ("Arial Bold", 60))
+    button_start = Button(canvas, text = 'Выход', height = 10, width = 25, font = '60', command = start_window, bd = 15)
+    button_start['bg'] = '#ff9900'
+    button_start.place(x = 700,y = 620)
+    #os.execv(sys.executable, ['python'] + sys.argv)
+
+def can_3(e):
+    global c3_1
+    global c3_2
+    global c3_3
+    global canvas
+    win32api.LoadKeyboardLayout('00000409',1)
+    canvas.pack_forget()
+    canvas.unbind_all('<Key>')
+    canvas = Canvas(width = 5000, height = 5000, bg = '#ff9900')
+    canvas.pack()
+    keyboard_translate = {'Й':'<q>','Ц':'<w>','У':'<e>','К':'<r>','Е':'<t>',
+                          'Н':'<y>','Г':'<u>','Ш':'<i>','Щ':'<o>','З':'<p>','Х':'<[>','Ъ':'<]>','Ф':'<a>','Ы':'<s>',
+                          'В':'<d>','А':'<f>','П':'<g>','Р':'<h>','О':'<j>','Л':'<k>','Д':'<l>','Ж':'<;>','Я':'<z>',
+                          'Ч':'<x>','С':'<c>','М':'<v>','И':'<b>','Т':'<n>','Ь':'<m>','Б':'<,>','Ю':'<.>','Ё':'<`>'}
+    alphabet = ['Й','Ц','У','К','Е','Н','Г','Ш','Щ','З','Х','Ъ','Ф','Ы','В','А','П','Р','О','Л','Д','Ж','Я','Ч','С','М','И','Т','Ь','Б','Ю','Ё']
+    words = ['УЖ','МЯЧ','КОТ','ПЁС','РОК','СОК','МИР','ЛАК','БУР','САД','МУР','ПАР','ЧАЙ','ЮГ','ЧИЖ','ЦЕХ','ШАР','МАК','КОМ','КОЛ','ТОК','КИТ','ТИР','ЛУК','ЛОМ','БОК','ВОЛ','ГОЛ']
+    count_letter = 10
+    ok = True
+    fal_l = True
+    usk = 4.5
+    for i in range(count_letter):
+        storona = random.randint(1,2)
+        letter = words[random.randint(0,len(words)-1)]
+        if storona == 1:
+            if len(letter)==2:
+                lett1 = canvas.create_text(0,500,text=letter[0],tags= 'text',font = ("Arial Bold", 120))
+                lett2 = canvas.create_text(130,500,text=letter[1],tags= 'text',font = ("Arial Bold", 120))
+                fall = 130
+            else:
+                lett1 = canvas.create_text(0,500,text=letter[0],tags= 'text',font = ("Arial Bold", 120))
+                lett2 = canvas.create_text(130,500,text=letter[1],tags= 'text',font = ("Arial Bold", 120))
+                lett3 = canvas.create_text(260,500,text=letter[2],tags= 'text',font = ("Arial Bold", 120))
+                fall = 260
+                
+        else:
+            if len(letter)==2:
+                lett1 = canvas.create_text(1770,500,text=letter[0],tags= 'text',font = ("Arial Bold", 120))
+                lett2 = canvas.create_text(1900,500,text=letter[1],tags= 'text',font = ("Arial Bold", 120))
+                fall = 1770
+            else:
+                lett1 = canvas.create_text(1640,500,text=letter[0],tags= 'text',font = ("Arial Bold", 120))
+                lett2 = canvas.create_text(1770,500,text=letter[1],tags= 'text',font = ("Arial Bold", 120))
+                lett3 = canvas.create_text(1900,500,text=letter[2],tags= 'text',font = ("Arial Bold", 120))
+                fall = 1640
+        c3_1 = True
+        c3_2 = True
+        c3_3 = True
+        p3_1 = True
+        p3_2 = True
+        if len(letter) == 2:
+            while c3_2:
+                if storona == 1:
+                    canvas.move('text',usk,0)
+                    fall+=usk
+                else:
+                    canvas.move('text',usk*-1,0)
+                    fall-=usk
+                canvas.update()
+                time.sleep(0.000000000000000000000000000000001)
+                if c3_1:
+                    canvas.bind_all(keyboard_translate[letter[0]],l_3_1)
+                else:
+                    if p3_1:
+                        if storona == 2:
+                            fall+=130
+                        canvas.unbind_all(keyboard_translate[letter[0]])
+                        canvas.delete(lett1)
+                    p3_1 = False
+                    canvas.bind_all(keyboard_translate[letter[1]],l_3_2)
+                if (fall>1900) or (fall<0):
+                    if c3_1:
+                        canvas.unbind_all(keyboard_translate[letter[0]])
+                        c3_1 = False
+                    else:
+                        canvas.unbind_all(keyboard_translate[letter[1]])
+                        c3_2 = False
+                    ok = False
+                    fal_l=False
+                    break
+            canvas.unbind_all(keyboard_translate[letter[0]])
+            canvas.unbind_all(keyboard_translate[letter[1]])
+            canvas.delete(lett2)
+            canvas.delete(lett1)
+            usk+=0.2
+            if not(fal_l):
+                break
+        else:
+            while c3_3:
+                if storona == 1:
+                    canvas.move('text',usk,0)
+                    fall+=usk
+                else:
+                    canvas.move('text',usk*-1,0)
+                    fall-=usk
+                canvas.update()
+                time.sleep(0.000000000000000000000000000000001)
+                if c3_1:
+                    canvas.bind_all(keyboard_translate[letter[0]],l_3_1)
+                elif c3_2:
+                    if p3_1:
+                        if storona == 2:
+                            fall+=130
+                        canvas.unbind_all(keyboard_translate[letter[0]])
+                        canvas.delete(lett1)
+                    p3_1 = False
+                    canvas.bind_all(keyboard_translate[letter[1]],l_3_2)
+                else:
+                    if p3_2:
+                        if storona == 2:
+                            fall+=130
+                        canvas.unbind_all(keyboard_translate[letter[1]])
+                        canvas.delete(lett2)
+                    p3_2 = False
+                    canvas.bind_all(keyboard_translate[letter[2]],l_3_3)
+                if (fall>1900) or (fall<0):
+                    if c3_1:
+                        canvas.unbind_all(keyboard_translate[letter[0]])
+                        c3_1 = False
+                    elif c3_2:
+                        canvas.unbind_all(keyboard_translate[letter[1]])
+                        c3_2 = False
+                    else:
+                        canvas.unbind_all(keyboard_translate[letter[2]])
+                        c3_3 = False
+                    ok = False
+                    fal_l=False
+                    break
+            canvas.unbind_all(keyboard_translate[letter[0]])
+            canvas.unbind_all(keyboard_translate[letter[1]])
+            canvas.unbind_all(keyboard_translate[letter[2]])
+            canvas.delete(lett3)
+            canvas.delete(lett2)
+            canvas.delete(lett1)
+            usk+=0.2
+            if not(fal_l):
+                break
+            
+    if ok:
+        canvas.create_text(900,350,text = '           Молодец\n\nУ тебя всё получилось',font = ("Arial Bold", 60))
+    else:
+        canvas.create_text(900,350,text = '                         Эхх...\n\n      Попробуй ещё раз пройти уровень',font = ("Arial Bold", 60))
+    button_start = Button(canvas, text = 'Выход', height = 10, width = 25, font = '60', command = start_window, bd = 15)
+    button_start['bg'] = '#ff3300'
+    button_start.place(x = 700,y = 620)
+    #os.execv(sys.executable, ['python'] + sys.argv)
+
+def can_4(e):
+    global canvas
+    win32api.LoadKeyboardLayout('00000419',1)
+    ok = True
+    canvas.pack_forget()
+    canvas.unbind_all('<Key>')
+    canvas = Canvas(width = 5000, height = 5000, bg = 'salmon1')
+    canvas.pack()
+    message_entry = Entry(canvas, bg = 'coral2', width = 35, font = ('Calibri', 60))
+    message_entry.place(x = 70, y = 700)
+    text_1 = ['Это край чудесный','Там, где синь небес.','Золотое поле и зелёный лес','Ручеёк звенящий и весенний гром','Это - запах хлеба.','Это - отчий дом.','Родина - родная','Наша сторона.','Ты на всей планете','Лучшая страна.']
+    n = len(text_1)
+    fal_l = True
+    for i in range(n):
+        t = 15
+        round_time = 1
+        lett = canvas.create_text(900,350,text = text_1[i],tags= 'text',font = ("Arial Bold", 60))
+        while ok:
+            timer = canvas.create_text(1700,150,text = t,tags= 'text',font = ("Arial Bold", 120))
+            a = message_entry.get()
+            canvas.update()
+            if round_time%10==0:
+                t-=1
+            round_time+=1
+            if a == text_1[i]:
+                ok = False
+            elif t == 0:
+                fal_l = False
+                ok = False
+            time.sleep(0.1)
+            canvas.delete(timer)
+        canvas.delete(lett)
+        ok = True
+        message_entry.delete(0,END)
+        if not(fal_l):
+            break
+    canvas.pack_forget()
+    canvas = Canvas(width = 5000, height = 5000, bg = 'salmon1')
+    canvas.pack()
+    if fal_l:
+        canvas.create_text(900,350,text = '           Молодец\n\nУ тебя всё получилось',font = ("Arial Bold", 60))
+    else:
+        canvas.create_text(900,350,text = '                         Эхх...\n\n      Попробуй ещё раз пройти уровень',font = ("Arial Bold", 60))
+    button_start = Button(canvas, text = 'Выход', height = 10, width = 25, font = '60', command = start_window, bd = 15)
+    button_start['bg'] = '#00ffff'
+    button_start.place(x = 700,y = 620)
+            
+def level_1():
+    global canvas
+    canvas.pack_forget()
+    canvas = Canvas(width = 2000, height = 2000, bg = '#ffff00')
+    canvas.pack()
+    p = Label(canvas, text = 'Инструкция!', font = ("Arial Bold", 40))
+    p['bg'] = '#ffff00'
+    p.place(x = 750, y = 100)
+    k = Label(canvas, text = 'Если буква движется справа налево, то её нужно\n найти на клавиатуре и нажать правой рукой.', font = ("Arial Bold", 40))
+    k['bg'] = '#ffff00'
+    k.place(x = 180, y = 300)
+    l = Label(canvas, text = 'Если буква движется слева направо, то её нужно\n найти на клавиатуре и нажать левой рукой', font = ("Arial Bold", 40))
+    l['bg'] = '#ffff00'
+    l.place(x = 180, y = 500)
+    j = Label(canvas, text = 'Для запуска уровня нажмите любую кнопку клавиатуры', font = ("Arial Bold", 30))
+    j['bg'] = '#ffff00'
+    j.place(x = 280, y = 700)
+    canvas.bind_all('<Key>',can_1)
+
+def level_2():
+    global canvas
+    canvas.pack_forget()
+    canvas = Canvas(width = 2000, height = 2000, bg = '#00ff33')
+    canvas.pack()
+    p = Label(canvas, text = 'Инструкция!', font = ("Arial Bold", 40))
+    p['bg'] = '#00ff33'
+    p.place(x = 750, y = 100)
+    k = Label(canvas, text = 'Если буква движется справа налево, то её нужно\n найти на клавиатуре и нажать правой рукой.', font = ("Arial Bold", 40))
+    k['bg'] = '#00ff33'
+    k.place(x = 180, y = 300)
+    l = Label(canvas, text = 'Если буква движется слева направо, то её нужно\n найти на клавиатуре и нажать левой рукой', font = ("Arial Bold", 40))
+    l['bg'] = '#00ff33'
+    l.place(x = 180, y = 500)
+    j = Label(canvas, text = 'Для запуска уровня нажмите любую кнопку клавиатуры', font = ("Arial Bold", 30))
+    j['bg'] = '#00ff33'
+    j.place(x = 280, y = 700)
+    canvas.bind_all('<Key>',can_2)
+    
+def level_3():
+    global canvas
+    canvas.pack_forget()
+    canvas = Canvas(width = 2000, height = 2000, bg = '#ff9900')
+    canvas.pack()
+    p = Label(canvas, text = 'Инструкция!', font = ("Arial Bold", 40))
+    p['bg'] = '#ff9900'
+    p.place(x = 750, y = 100)
+    k = Label(canvas, text = 'Наберите слово, которое видете на экране.', font = ("Arial Bold", 40))
+    k['bg'] = '#ff9900'
+    k.place(x = 300, y = 300)
+    l = Label(canvas, text = 'По мере прохождения уровня будет \n  увеличиваться скорость движения слов.\n Будь внимательней!', font = ("Arial Bold", 40))
+    l['bg'] = '#ff9900'
+    l.place(x = 300, y = 420)
+    j = Label(canvas, text = 'Для запуска уровня нажмите любую кнопку клавиатуры', font = ("Arial Bold", 30))
+    j['bg'] = '#ff9900'
+    j.place(x = 280, y = 700)
+    canvas.bind_all('<Key>',can_3)
+    
+def level_4():
+    global canvas
+    canvas.pack_forget()
+    canvas = Canvas(width = 2000, height = 2000, bg = 'salmon1')
+    canvas.pack()
+    p = Label(canvas, text = 'Инструкция!', font = ("Arial Bold", 40))
+    p['bg'] = 'salmon1'
+    p.place(x = 750, y = 100)
+    k = Label(canvas, text = 'Установите курсор в окно ввода', font = ("Arial Bold", 40))
+    k['bg'] = 'salmon1'
+    k.place(x = 450, y = 300)
+    l = Label(canvas, text = 'Наберите текст, который видете на экране\n Следите за таймером', font = ("Arial Bold", 40))
+    l['bg'] = 'salmon1'
+    l.place(x = 300, y = 450)
+    j = Label(canvas, text = 'Для запуска уровня нажмите любую кнопку клавиатуры', font = ("Arial Bold", 30))
+    j['bg'] = 'salmon1'
+    j.place(x = 280, y = 700)
+    canvas.bind_all('<Key>',can_4)
+
+window = Tk()
+window.title('Клавиатурный тренажёр')
+canvas = Canvas(width = 2000, height = 2000, bg = '#00ffff')
+canvas.pack()
+lett = canvas.create_text(980,200,text = 'Добро пожаловать в клавиатурный тренажёр',font = ("Arial Bold", 40))
+button_1 = Button(canvas, text = 'Уровень 1\n\nНачальный', height = 12, width = 30, font = '60', command = level_1, bd = 15)
+button_1['bg'] = '#ffff00'
+button_1.place(x = 120,y = 450)
+button_2 = Button(canvas, text = 'Уровень 2\n\nОсновной', height = 12, width = 30, font = '60', command = level_2, bd = 15)
+button_2['bg'] = '#00ff33'
+button_2.place(x = 560,y = 450)
+button_3 = Button(canvas, text = 'Уровень 3\n\nУсложнённый', height = 12, width = 30, font = '60', command = level_3, bd = 15)
+button_3['bg'] = '#ff9900'
+button_3.place(x = 1000,y = 450)
+button_4 = Button(canvas, text = 'Уровень 4\n\nПродвинутый', height = 12, width = 30, font = '60', command = level_4, bd = 15)
+button_4['bg'] = '#ff3300'
+button_4.place(x = 1440,y = 450)
+window.mainloop()
